@@ -1,0 +1,30 @@
+Primary Key generation Strategies :
+There are Four type of it :-
+1. GenerationType.AUTO : it tis default generation type.
+- Hibernate as persistence provider selects gerneration strategy based on db-specific dialect.
+- Most popular db selects SEQUENCE generationtype.\
+- Note: hibernate create hibernate_seqence table to maintain the primary keys. in case of AUTO
+ex:
+@Id
+@@GeneratedValue(strategy = GenerationType.AUTO)
+2. GenerationType.IDENTITY : it relies on an auto-incremented db column and lets db generate a new value with each other operation.
+- not good for jdbc batch operation.
+3. GenerationType.SEQUENCE: default sequence is 50.
+ex:
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO,
+    generator="product_generator")
+
+@SequenceGenerator(
+    name = "product_generator",
+    sequenceName = "product_sequence_name",
+    allocationSize = 1)
+
+4. GenerationType.TABLE
+
+
+Difference between GenerationType.IDENTITY / GenerationType.SEQUENCE / GenerationType.AUTO
+GenerationType.Identity does not create any additional sequence tables like GenerationType.AUTO / GenerationType.SEQUENCE and also maintain the sequences in every table starts from 0, rather than maintaining the sequence number across the tables like GenerationType.AUTO does it.
+GenerationType.AUTO generates one more table named hibernate_sequences for maintaining the sequences.
+GenerationType.SEQUENCE is purely customizable, probably every auto generation field would have configured with separate sequences
+
